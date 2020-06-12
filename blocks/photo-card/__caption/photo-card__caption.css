@@ -1,0 +1,9 @@
+.photo-card__caption {
+    width: 87.23%;
+    margin-left: 21px;
+    margin-top: 25px;
+    margin-bottom: 31px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}

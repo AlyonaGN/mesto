@@ -1,0 +1,9 @@
+.inter-section-space_l {
+  margin-bottom: 66px;
+}
+
+@media screen and (max-width: 600px) {
+  .inter-section-space_l {
+    margin-bottom: 48px;  
+  }
+}

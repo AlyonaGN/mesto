@@ -1,0 +1,15 @@
+.page {
+    max-width: 1200px;
+    min-width: 300px;
+    margin: 0 auto;
+    padding-top: 45px;
+    width: 100%;
+  }
+  
+  @media screen and (max-width: 600px) {
+    .page {
+      width: 88.125%;
+      margin: 0 auto;
+      padding-top: 28px;  
+    }
+  }
