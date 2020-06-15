@@ -2,7 +2,6 @@
     margin: 0 auto;
     width: 73.5%;
     justify-items: center;
-    border: 1px red solid;
 }
   
   @media screen and (max-width: 600px) {

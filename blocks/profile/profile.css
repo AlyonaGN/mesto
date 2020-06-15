@@ -4,12 +4,12 @@
 @import url(./__description/profile__description.css);
 @import url(./__name/profile__name.css);
 @import url(./__add-button/profile__add-button.css);
+@import url(./__open-edit-profile-form/profile__open-edit-profile-form.css);
 
 .profile {
   margin: 0 auto;
   display: flex;
   width: 100%;
-  border: 1px red solid;
 }
 
 @media screen and (max-width: 900px) {

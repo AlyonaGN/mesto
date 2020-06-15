@@ -4,10 +4,11 @@
 @import url(../blocks/page/page.css);
 @import url(../blocks/header/header.css);
 @import url(../blocks/content-container/content-container.css);
-@import url(../blocks/edit-profile-form/edit-profile-form.css);
 @import url(../blocks/photo-cards/photo-cards.css);
 @import url(../blocks/photo-card/photo-card.css);
 @import url(../blocks/profile/profile.css);
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/inter-section-space/inter-section-space.css);
 
+@import url(../blocks/edit-profile-form/edit-profile-form.css);
+@import url(../blocks/edit-profile-form/_opened/edit-profile-form_opened.css);

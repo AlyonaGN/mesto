@@ -23,11 +23,11 @@
         
         <div class="profile__info">
           <h1 class="profile__name">Жак-Ив Кусто</h1>
-          <button class="profile__edit-button"><img src="./images/edit-button.png" alt="здесь должна быть кнопка, но что-то пошло не так"></button>
+          <button class="profile__edit-button profile__open-edit-profile-form"></button>
           <p class="profile__description">Исследователь океана</p>
         </div>
         
-        <button class="profile__add-button"><img src="./images/add-button.png" alt="здесь должна быть кнопка, но что-то пошло не так"></button>
+        <button class="profile__add-button"></button>
       
       </section>
 
@@ -37,50 +37,50 @@
         
           <li class="photo-card">
             <img class="photo-card__photo" src="./images/kirill-pershin-1088404-unsplash.png" alt="здесь должно быть фото, но что-то пошло не так">
-            <div class="photo-card__caption">
+            <figcaption class="photo-card__caption">
               <h2 class="photo-card__description">Карачаевск</h2>
               <img class="photo-card__like" src="./images/like.png">
-            </div>
+            </figcaption>
           </li>
 
           <li class="photo-card">
             <img class="photo-card__photo" src="./images/kirill-pershin-1404681-unsplash.png" alt="здесь должно быть фото, но что-то пошло не так">
-            <div class="photo-card__caption">
+            <figcaption class="photo-card__caption">
               <h2 class="photo-card__description">Гора Эльбрус</h2>
               <img class="photo-card__like" src="./images/like.png">
-            </div>
+            </figcaption>
           </li>
 
           <li class="photo-card">
             <img class="photo-card__photo" src="./images/kirill-pershin-1556355-unsplash.png" alt="здесь должно быть фото, но что-то пошло не так">
-            <div class="photo-card__caption">
+            <figcaption class="photo-card__caption">
               <h2 class="photo-card__description">Домбай</h2>
               <img class="photo-card__like" src="./images/like.png">
-            </div>
+            </figcaption>
           </li>
 
           <li class="photo-card">
             <img class="photo-card__photo" src="./images/matt-hardy-6ArTTluciuA-unsplash.jpg" alt="здесь должно быть фото, но что-то пошло не так">
-            <div class="photo-card__caption">
+            <figcaption class="photo-card__caption">
               <h2 class="photo-card__description">Побережье Бонди</h2>
               <img class="photo-card__like" src="./images/like.png">
-            </div>
+            </figcaption>
           </li>
 
           <li class="photo-card">
             <img class="photo-card__photo" src="./images/matt-duncan-IUY_3DvM__w-unsplash.jpg" alt="здесь должно быть фото, но что-то пошло не так">
-            <div class="photo-card__caption">
+            <figcaption class="photo-card__caption">
               <h2 class="photo-card__description">Хайвэй 212</h2>
               <img class="photo-card__like" src="./images/like.png">
-            </div>
+            </figcaption>
           </li>
 
           <li class="photo-card">
             <img class="photo-card__photo" src="./images/filip-zrnzevic-6f579sNrEHQ-unsplash.jpg" alt="здесь должно быть фото, но что-то пошло не так">
-            <div class="photo-card__caption">
+            <figcaption class="photo-card__caption">
               <h2 class="photo-card__description">Мокра Гора</h2>
               <img class="photo-card__like" src="./images/like.png">
-            </div>
+            </figcaption>
           </li>
         
         </ul>
@@ -93,7 +93,36 @@
       <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
     </footer>
 
+    <section class="edit-profile-form">
+       
+      <form class="edit-profile-form__form">
+        
+        <div class="edit-profile-form__form-content">
+
+          <button class="edit-profile-form__close-button"></button>
+
+          <h2 class="edit-profile-form__header">Редактировать профиль</h2>
+          
+          <label>
+            <input class="edit-profile-form__name-field" type="text" value="Жак-Ив Кусто"></input>
+          </label>
+          
+          <label>
+            <input class="edit-profile-form__description-field" type="text" value="Исследователь океана"></input>
+          </label>
+          
+          <button type="submit" class="edit-profile-form__submit-button">Сохранить</button>
+        
+        </div>
+
+      </form>
+
+    </section>
+
   </div>
     
 </body>
+
+<script type="text/javascript" src="./scripts/index.js"></script>
+
 </html>

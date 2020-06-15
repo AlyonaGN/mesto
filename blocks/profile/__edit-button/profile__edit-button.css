@@ -3,6 +3,8 @@
   height: 24px;
   grid-area: edit-button;
   padding: 0;
+  background-image: url('../../../images/edit-button.png');
+  background-position: center;
   border: none;
   font: inherit;
   color: inherit;
@@ -15,6 +17,7 @@
   .profile__edit-button {
     width: 18px;
     height: 18px;
+    background-size: 18px 18px;
   }
 }
 
