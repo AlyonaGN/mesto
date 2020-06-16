@@ -4,46 +4,41 @@ const popupCloseButton = popup.querySelector('.edit-profile-form__close-button')
 const popupSaveButton =  popup.querySelector('.edit-profile-form__submit-button');
 const profile = document.querySelector('.profile');
 
-const popupToggle = function (event) {
-    popup.classList.toggle('edit-profile-form_opened');
-    console.log('i tried');
+const popupClose = function (event) {
+    popup.classList.remove('edit-profile-form_opened');
+}
+
+const popupOpen = function (event) {
+    popup.classList.add('edit-profile-form_opened');
 }
 
 const closeEditFormClickingOverlay = function (event) {
-    if (event.target === popupCloseButton) {
-        event.stopPropagation();
-    }
-    else if (event.target === event.currentTarget) { 
-        popupToggle(); 
+    if (event.target === event.currentTarget) { 
+        popupClose(); 
     } 
-    else  {
-        return;
-    }
 }
 
 function formSubmitHandler (event) {
     event.preventDefault(); 
 
-    if (event.submitter !== popupCloseButton) {
-        
-        const nameInput = popup.querySelector('.edit-profile-form__name-field');
-        const descriptionInput = popup.querySelector('.edit-profile-form__description-field');
+    const nameInput = popup.querySelector('.edit-profile-form__name-field');
+    const descriptionInput = popup.querySelector('.edit-profile-form__description-field');
 
-        let userName = nameInput.value;
-        let jobDescription = descriptionInput.value;
+    let userName = nameInput.value;
+    let jobDescription = descriptionInput.value;
 
-        let profileUserName = profile.querySelector('.profile__name');
-        let profileJobDescription = profile.querySelector('.profile__description');
+    let profileUserName = profile.querySelector('.profile__name');
+    let profileJobDescription = profile.querySelector('.profile__description');
         
-        profileUserName.textContent = userName;
-        profileJobDescription.textContent = jobDescription;
+    profileUserName.textContent = userName;
+    profileJobDescription.textContent = jobDescription;
         
-        popupToggle();
-    }
+    popupClose();
+    
 }
 
-popupOpenButton.addEventListener('click', popupToggle);
-popupCloseButton.addEventListener('click', popupToggle);
+popupOpenButton.addEventListener('click', popupOpen);
+popupCloseButton.addEventListener('click', popupClose);
 popup.addEventListener('click', closeEditFormClickingOverlay);
 popup.addEventListener('submit', formSubmitHandler);
 
