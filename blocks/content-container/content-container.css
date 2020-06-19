@@ -1,11 +1,12 @@
+@import url(./__profile/content-container__profile.css);
+
 .content-container {
-    margin: 0 auto;
     width: 73.5%;
     justify-items: center;
 }
   
   @media screen and (max-width: 600px) {
     .content-container {
-      width: 100%;  
+      width: 88.125%;
     }
   }

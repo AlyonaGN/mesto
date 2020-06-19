@@ -1,9 +1,12 @@
-.photo-card__like {
-    height: 18.13px;
-    width: 20.76px;
+.popup__close-button {
+    position: absolute;
+    top: -40.7px;
+    right: -40.7px;
+    width: 40.7px;
+    height: 40.7px;
     font: inherit;
     color: inherit;
-    background-image: url('../../../images/like.svg');
+    background-image: url('../../../images/close-icon.svg');
     background-color: transparent;
     border: none;
     padding: 0;
@@ -12,7 +15,16 @@
     background-position: center;
 }
 
-.photo-card__like:hover {
+@media screen and (max-width: 600px) {
+    .popup__close-button {
+        top: -25px;
+        right: -25px;
+        width: 25px;
+        height: 25px;
+    }
+  }
+
+  .popup__close-button:hover {
     opacity: 0.6;
     -webkit-transition: opacity 1.5s ease;
     -moz-transition: opacity 1.5s ease;
@@ -20,3 +32,4 @@
     -o-transition: opacity 1.5s ease;
     transition: opacity 1.5s ease;
 }
+  

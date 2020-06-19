@@ -3,7 +3,7 @@
   height: 24px;
   grid-area: edit-button;
   padding: 0;
-  background-image: url('../../../images/edit-button.png');
+  background-image: url('../../../images/edit-button.svg');
   background-position: center;
   border: none;
   font: inherit;

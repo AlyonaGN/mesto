@@ -4,9 +4,10 @@
 @import url(./__like/photo-card__like.css);
 
 .photo-card {
-    height: 361px;
+    height: 100%;
+    width: 100%;
+    margin: 0;
     background-color: #fff;
     border-radius: 10px;
-    max-width: 100%;
-    height: 100%;
+    line-height: 0;
 }

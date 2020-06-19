@@ -8,7 +8,6 @@
 @import url(../blocks/photo-card/photo-card.css);
 @import url(../blocks/profile/profile.css);
 @import url(../blocks/footer/footer.css);
-@import url(../blocks/inter-section-space/inter-section-space.css);
 
-@import url(../blocks/edit-profile-form/edit-profile-form.css);
-@import url(../blocks/edit-profile-form/_opened/edit-profile-form_opened.css);
+@import url(../blocks/popup/popup.css);
+@import url(../blocks/popup/_opened/popup_opened.css);
