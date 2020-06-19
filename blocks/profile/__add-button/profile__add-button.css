@@ -4,21 +4,29 @@
   padding: 0;
   background-image: url('../../../images/add-button.svg');
   background-repeat: no-repeat;
-  background-position: 50% 50%; 
+  background-position: 50% 50%;
   align-self: center;
   margin-left: auto;
   font: inherit;
   color: inherit;
   background-color: transparent;
-  border: none;
+  border: 2px #FFF solid;
+  border-radius: 2px;
   box-shadow: none;
   cursor: pointer;
 }
 
+
 @media screen and (max-width: 900px) {
   .profile__add-button {
-    width: 100%;
+    width: 80%;
     margin: 0;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .profile__add-button {
+    width: 100%;
   }
 }
 
