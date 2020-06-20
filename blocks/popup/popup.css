@@ -3,8 +3,6 @@
 @import url(./__form/popup__form.css);
 @import url(./__submit-button/popup__submit-button.css);
 @import url(./__field/popup__field.css);
-@import url(./__field/_name/popup__field_name.css);
-@import url(./__field/_description/popup__field_description.css);
 
 .popup {
     display: none;
