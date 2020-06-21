@@ -44,5 +44,5 @@ popupOpenButton.addEventListener('click', popupOpen);
 popupCloseButton.addEventListener('click', popupClose);
 popupForm.addEventListener('click', stopPropagation);
 popup.addEventListener('click', popupClose);
-popup.addEventListener('submit', formSubmitHandler);
+popupForm.addEventListener('submit', formSubmitHandler);
 
