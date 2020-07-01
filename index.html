@@ -35,66 +35,6 @@
         
         <ul class="photo-cards__list">
         
-          <li>
-            <figure class="photo-card">
-              <img class="photo-card__photo" src="./images/kirill-pershin-1088404-unsplash.png" alt="здесь должно быть фото, но что-то пошло не так">
-              <figcaption class="photo-card__caption">
-                <h2 class="photo-card__description">Карачаевск</h2>
-                <button type="button" class="photo-card__like"></button>
-              </figcaption>
-            </figure>
-          </li>
-
-          <li>
-            <figure class="photo-card">
-              <img class="photo-card__photo" src="./images/kirill-pershin-1404681-unsplash.png" alt="здесь должно быть фото, но что-то пошло не так">
-              <figcaption class="photo-card__caption">
-                <h2 class="photo-card__description">Гора Эльбрус</h2>
-                <button type="button" class="photo-card__like"></button>
-              </figcaption>
-            </figure>
-          </li>
-
-          <li>
-            <figure class="photo-card">
-              <img class="photo-card__photo" src="./images/kirill-pershin-1556355-unsplash.png" alt="здесь должно быть фото, но что-то пошло не так">
-              <figcaption class="photo-card__caption">
-                <h2 class="photo-card__description">Домбай</h2>
-                <button type="button" class="photo-card__like"></button>
-              </figcaption>
-            </figure>
-          </li>
-
-          <li>
-            <figure class="photo-card">
-              <img class="photo-card__photo" src="./images/jeremy-bishop-7JPerNWjEAE-unsplash.jpg" alt="здесь должно быть фото, но что-то пошло не так">
-              <figcaption class="photo-card__caption">
-                <h2 class="photo-card__description">Побережье Бонди</h2>
-                <button type="button" class="photo-card__like"></button>
-              </figcaption>
-            </figure>
-          </li>
-
-          <li>
-            <figure class="photo-card">
-              <img class="photo-card__photo" src="./images/dimitar-donovski-h9Zr7Hq8yaA-unsplash.jpg" alt="здесь должно быть фото, но что-то пошло не так">
-              <figcaption class="photo-card__caption">
-                <h2 class="photo-card__description">Хайвэй 212</h2>
-                <button type="button" class="photo-card__like"></button>
-              </figcaption>
-            </figure>
-          </li>
-
-          <li>
-            <figure class="photo-card">
-              <img class="photo-card__photo" src="./images/filip-zrnzevic-6f579sNrEHQ-unsplash.jpg" alt="здесь должно быть фото, но что-то пошло не так">
-              <figcaption class="photo-card__caption">
-                <h2 class="photo-card__description">Мокра Гора</h2>
-                <button type="button" class="photo-card__like"></button>
-              </figcaption>
-            </figure>
-          </li>
-        
         </ul>
         
       </section>
@@ -105,7 +45,7 @@
       <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
     </footer>
 
-    <div class="popup">
+    <div class="popup popup_type_profile">
        
       <form class ="popup__form" name="popup-form">
 
@@ -123,7 +63,50 @@
 
     </div>
 
+    <div class="popup popup_type_add-photo">
+       
+      <form class ="popup__form" name="popup-form">
+
+        <button type="button" class="popup__close-button"></button>
+
+        <h2 class="popup__header">Новое место</h2>
+
+        <input class="popup__field popup__field_photo-description" type="text" placeholder="Название" name="photo-description">
+         
+        <input class="popup__field popup__field_photo-link" type="link" placeholder="Ссылка на картинку" name="photo-link">
+          
+        <button type="submit" class="popup__submit-button">Создать</button>
+
+      </form>
+
+    </div>
+
+    <div class="popup popup_type_photo-view">
+
+      <figure class="popup__photo-card-fullscreen">
+        <button type="button" class="popup__close-button popup__close-button_small"></button>
+        <img class="popup__photo-fullscreen" alt="здесь должно быть фото, но что-то пошло не так">
+        <figcaption class="popup__photo-caption"></figcaption>
+      </figure>
+  
+    </div>
+
   </div>
+
+  <template class="photo-card-template">
+
+    <li>
+      <figure class="photo-card">
+        <button type="button" class="photo-card__delete-button"></button>
+        <img class="photo-card__photo" alt="здесь должно быть фото, но что-то пошло не так">
+        <figcaption class="photo-card__caption">
+          <h2 class="photo-card__description"></h2>
+          <button type="button" class="photo-card__like"></button>
+        </figcaption>
+      </figure>
+    </li>
+    
+  </template>
 
   <script type="text/javascript" src='./scripts/index.js'></script>
 

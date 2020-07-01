@@ -1,11 +1,18 @@
 @import url(./__close-button/popup__close-button.css);
+@import url(./__close-button/_small/popup__close-button_small.css);
 @import url(./__header/popup__header.css);
 @import url(./__form/popup__form.css);
 @import url(./__submit-button/popup__submit-button.css);
 @import url(./__field/popup__field.css);
+@import url(./__photo-caption/popup__photo-caption.css);
+@import url(./__photo-fullscreen/popup__photo-fullscreen.css);
+@import url(./__photo-card-fullscreen/popup__photo-card-fullscreen.css);
 
 .popup {
-    display: none;
+    display: flex;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s linear 500ms, opacity 500ms;
     position: fixed;
     top: 0;
     left: 0;
