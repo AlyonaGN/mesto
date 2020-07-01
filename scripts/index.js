@@ -85,6 +85,7 @@ function addNewPhotoSubmitHandler(event) {
     addPhotoCard(newPhotoCard);
 
     popupClose(event);
+    
     newPhotoDescriptionInput.value = '';
     newPhotoLinkInput.value = '';
 }
