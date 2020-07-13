@@ -8,12 +8,7 @@
     font-weight: normal;
     font-size: 14px;
     line-height: 1.214;
-    width: 83.25%;
-    min-width: 200px;
+    width: 100%;
     display: block;
     margin: 0 auto 29.74px;
-}
-
-.popup__field:last-of-type {
-    margin-bottom: 48px;
 }

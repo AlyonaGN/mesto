@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./page/index.css">
+  <link rel="stylesheet" href="./pages/index.css">
   <title>Mesto</title>
   <meta name="author" content="Алёна Гневушева">
 </head>
@@ -47,16 +47,22 @@
 
     <div class="popup popup_type_profile">
        
-      <form class ="popup__form" name="popup-form">
+      <form class ="popup__form" name="popup-form" novalidate>
 
         <button type="button" class="popup__close-button"></button>
 
         <h2 class="popup__header">Редактировать профиль</h2>
          
-        <input class="popup__field popup__field_name" type="text" value="Жак-Ив Кусто" name="user-name">
-          
-        <input class="popup__field popup__field_description" type="text" value="Исследователь океана" name="profile-description">
-            
+        <label class="popup__input">
+          <input class="popup__field popup__field_name" type="text" value="Жак-Ив Кусто" name="user-name" minlength="2" maxlength="40" required>
+          <span class="popup__field-error"></span>
+        </label>
+
+        <label class="popup__input">
+          <input class="popup__field popup__field_description" type="text" value="Исследователь океана" name="profile-description" minlength="2" maxlength="200" required>
+          <span class="popup__field-error"></span>
+        </label>
+
         <button type="submit" class="popup__submit-button">Сохранить</button>
 
       </form>
@@ -65,16 +71,22 @@
 
     <div class="popup popup_type_add-photo">
        
-      <form class ="popup__form" name="popup-form">
+      <form class ="popup__form" name="popup-form" novalidate>
 
         <button type="button" class="popup__close-button"></button>
 
         <h2 class="popup__header">Новое место</h2>
 
-        <input class="popup__field popup__field_photo-description" type="text" placeholder="Название" name="photo-description">
-         
-        <input class="popup__field popup__field_photo-link" type="link" placeholder="Ссылка на картинку" name="photo-link">
-          
+        <label class="popup__input">
+          <input class="popup__field popup__field_photo-description" type="text" placeholder="Название" name="photo-description" minlength="1" maxlength="30" required>
+          <span class="popup__field-error"></span>
+        </label>
+
+        <label class="popup__input">
+          <input class="popup__field popup__field_photo-link" type="url" placeholder="Ссылка на картинку" name="photo-link" required>
+          <span class="popup__field-error"></span>
+        </label>
+
         <button type="submit" class="popup__submit-button">Создать</button>
 
       </form>
@@ -84,9 +96,11 @@
     <div class="popup popup_type_photo-view">
 
       <figure class="popup__photo-card-fullscreen">
+
         <button type="button" class="popup__close-button popup__close-button_small"></button>
         <img class="popup__photo-fullscreen" alt="здесь должно быть фото, но что-то пошло не так">
         <figcaption class="popup__photo-caption"></figcaption>
+
       </figure>
   
     </div>
@@ -97,17 +111,20 @@
 
     <li>
       <figure class="photo-card">
+
         <button type="button" class="photo-card__delete-button"></button>
         <img class="photo-card__photo" alt="здесь должно быть фото, но что-то пошло не так">
         <figcaption class="photo-card__caption">
           <h2 class="photo-card__description"></h2>
           <button type="button" class="photo-card__like"></button>
         </figcaption>
+
       </figure>
     </li>
     
   </template>
 
+  <script type="text/javascript" src='./scripts/validate.js'></script>
   <script type="text/javascript" src='./scripts/index.js'></script>
 
 </body>
