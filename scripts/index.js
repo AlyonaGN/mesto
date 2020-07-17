@@ -1,5 +1,4 @@
 const popupList = document.querySelectorAll('.popup');
-const popupCloseButtonsList = document.querySelectorAll('.popup__close-button');
 
 const profile = document.querySelector('.profile');
 const popupEditProfile = document.querySelector('.popup_type_profile');
@@ -13,6 +12,7 @@ const profileDescription = profile.querySelector('.profile__description');
 const popupAddPhoto = document.querySelector('.popup_type_add-photo');
 const popupAddPhotoForm = popupAddPhoto.querySelector('.popup__form');
 const popupAddPhotoOpenButton = profile.querySelector('.profile__add-button');
+const popupAddPhotoSubmitButton = popupAddPhoto.querySelector('.popup__submit-button');
 const newPhotoDescriptionInput = popupAddPhoto.querySelector('.popup__field_photo-description');
 const newPhotoLinkInput = popupAddPhoto.querySelector('.popup__field_photo-link');
 
@@ -59,26 +59,20 @@ initialCards.reverse().forEach(function (initialCard) {
 
 popupList.forEach(function (popup) {
     popup.addEventListener('click', (event) => {
-        if (event.target.classList.contains('popup')) {
-            popupClose(popup); 
-        } 
-      });
+        if (event.target.classList.contains('popup') || event.target.classList.contains('popup__close-button')) {
+            closePopup(popup);
+        }
+    });
 });
 
-popupCloseButtonsList.forEach(function (popupCloseButton){
-    popupCloseButton.addEventListener('click', (event) => {
-        if (event.target === popupCloseButton) {
-            const popup = event.target.closest('.popup');
-            popupClose(popup); 
-        } 
-      });
-});
-
-function createPhotoCard (photoDescription, link) {
+function createPhotoCard(photoDescription, link) {
     const photoCard = photoCardTemplate.cloneNode(true);
     photoCard.querySelector('.photo-card__description').innerText = photoDescription;
-    photoCard.querySelector('.photo-card__photo').src = link;
-    
+
+    const photoElement = photoCard.querySelector('.photo-card__photo');
+    photoElement.src = link;
+    photoElement.alt = photoDescription;
+
     const deletePhotoCardButton = photoCard.querySelector('.photo-card__delete-button');
     deletePhotoCardButton.addEventListener('click', deletePhotoCard);
 
@@ -87,138 +81,94 @@ function createPhotoCard (photoDescription, link) {
 
     const photoCardPhoto = photoCard.querySelector('.photo-card__photo');
     photoCardPhoto.addEventListener('click', openPhotoCardFullScreen);
-    
+
     return photoCard;
 }
 
-function addPhotoCard (photoCard) {
+function addPhotoCard(photoCard) {
     photoCards.prepend(photoCard);
 }
 
 function addNewPhotoSubmitHandler(event) {
     event.preventDefault();
     event.stopPropagation();
-    
+
     const newPhotoCard = createPhotoCard(newPhotoDescriptionInput.value, newPhotoLinkInput.value);
     addPhotoCard(newPhotoCard);
 
     const popup = event.target.closest('.popup');
-    popupClose(popup);
-    
+    closePopup(popup);
+
     newPhotoDescriptionInput.value = '';
     newPhotoLinkInput.value = '';
 }
 
-function popupClose (popup) { 
-    
+function closePopup(popup) {
     popup.classList.remove('popup_opened');
-    
-    hidePopupErrors(popup, { inputSelector: '.popup__input', fieldSelector: '.popup__field', errorClass: '.popup__field-error', fieldErrorSelector: 'popup__field_type_error', inputErrorClass: 'popup__input_type_error' })
-
+    hidePopupErrors(popup, objectToValidate);
     document.removeEventListener('keyup', handleEscKey);
 }
 
-function popupOpen (event) {
-    if (event.target === popupEditProfileOpenButton) {
-        
-        nameInput.value = profileUserName.textContent;
-        profileDescriptionInput.value = profileDescription.textContent;
-
-        popupEditProfile.classList.add('popup_opened');
-
-        document.addEventListener('keyup', handleEscKey);
-    }
-
-    else if (event.target === popupAddPhotoOpenButton) {
-        
-        newPhotoDescriptionInput.value = '';
-        newPhotoLinkInput.value = '';
-
-        popupAddPhoto.classList.add('popup_opened');
-
-        document.addEventListener('keyup', handleEscKey);
-    }
-
+function preparePopupEditProfileForOpening() {
+    nameInput.value = profileUserName.textContent;
+    profileDescriptionInput.value = profileDescription.textContent;
+    openPopup(popupEditProfile);
 }
 
-function handleEscKey (event) {
-    if (event.key !== 'Escape') { 
-        return; 
-    }
+function preparePopupAddPhotoForOpening() {
+    newPhotoDescriptionInput.value = '';
+    newPhotoLinkInput.value = '';
+    popupAddPhotoSubmitButton.classList.add('popup__submit-button_inactive');
+    popupAddPhotoSubmitButton.setAttribute('disabled', true);
+    openPopup(popupAddPhoto);
+}
 
-    else {
-        const activePopup = document.querySelector('.popup_opened');
-        popupClose(activePopup);
-    }
-  }
-
-function openPhotoCardFullScreen (event) {
-    event.preventDefault();
-    event.stopPropagation();
-    
-    const photoCardFullScreen = event.target.closest('.photo-card');
-    popupPhotoFullScreen.src = photoCardFullScreen.querySelector('.photo-card__photo').src;
-    popupPhotoFullScreenCaption.innerText = photoCardFullScreen.querySelector('.photo-card__description').innerText;
-
-    popupPhotoView.classList.add('popup_opened');
-
+function openPopup(popupToOpen) {
+    popupToOpen.classList.add('popup_opened');
     document.addEventListener('keyup', handleEscKey);
 }
 
-function editProfileFormSubmitHandler (event) {
-    event.preventDefault();
-    event.stopPropagation(); 
-  
-    profileUserName.textContent = nameInput.value;
-    profileDescription.textContent = profileDescriptionInput.value;
-    
-    const popup = event.target.closest('.popup');
-    popupClose(popup); 
+function handleEscKey(event) {
+    if (event.key === 'Escape') {
+        const activePopup = document.querySelector('.popup_opened');
+        closePopup(activePopup);
+    }
 }
 
-function toggleLikePhotoCard (event) {
+function openPhotoCardFullScreen(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const photoCardFullScreen = event.target.closest('.photo-card');
+    const photoFullScreenElement = photoCardFullScreen.querySelector('.photo-card__photo');
+    popupPhotoFullScreen.src = photoFullScreenElement.src;
+    popupPhotoFullScreenCaption.innerText = photoCardFullScreen.querySelector('.photo-card__description').innerText;
+    popupPhotoFullScreen.alt = photoFullScreenElement.alt;
+    openPopup(popupPhotoView);
+}
+
+function editProfileFormSubmitHandler(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    profileUserName.textContent = nameInput.value;
+    profileDescription.textContent = profileDescriptionInput.value;
+    const popup = event.target.closest('.popup');
+    closePopup(popup);
+}
+
+function toggleLikePhotoCard(event) {
     event.target.classList.toggle('photo-card__like_active');
 }
 
-function deletePhotoCard (event) {
+function deletePhotoCard(event) {
     const photoCardToBeDeleted = event.target.closest('li');
     photoCardToBeDeleted.remove();
 }
 
-function hidePopupErrors(popup, { inputSelector, fieldSelector, errorClass, fieldErrorSelector, inputErrorClass }) {
-    const inputs = popup.querySelectorAll(inputSelector);
-    inputs.forEach(function (input) {
-        input.classList.remove(inputErrorClass);
-    });
-
-    const fields = popup.querySelectorAll(fieldSelector);
-    fields.forEach(function (field) {
-        field.classList.remove(fieldErrorSelector);
-    });
-
-    const errors = popup.querySelectorAll(errorClass);
-    errors.forEach(function (error){
-        error.textContent = '';
-    });
-  }
-
-popupEditProfileOpenButton.addEventListener('click', popupOpen);
-
-popupAddPhotoOpenButton.addEventListener('click', popupOpen);
-
+popupEditProfileOpenButton.addEventListener('click', preparePopupEditProfileForOpening);
+popupAddPhotoOpenButton.addEventListener('click', preparePopupAddPhotoForOpening);
 popupEditProfileForm.addEventListener('submit', editProfileFormSubmitHandler);
 popupAddPhotoForm.addEventListener('submit', addNewPhotoSubmitHandler);
 
-enableValidation({
-
-    formSelector: '.popup__form',
-    inputSelector: '.popup__input',
-    fieldSelector: '.popup__field',
-    submitButtonSelector: '.popup__submit-button',
-    inactiveButtonClass: 'popup__submit-button_inactive',
-    errorClass: '.popup__field-error',
-    fieldErrorSelector: 'popup__field_type_error',
-    inputErrorClass: 'popup__input_type_error',
-  });
-
-
+enableValidation(objectToValidate);
