@@ -17,7 +17,6 @@ const newPhotoDescriptionInput = popupAddPhoto.querySelector('.popup__field_phot
 const newPhotoLinkInput = popupAddPhoto.querySelector('.popup__field_photo-link');
 
 const popupPhotoView = document.querySelector('.popup_type_photo-view');
-const popupPhotoViewFullScreen = document.querySelector('.popup__photo-card-fullscreen');
 const popupPhotoFullScreen = popupPhotoView.querySelector('.popup__photo-fullscreen');
 const popupPhotoFullScreenCaption = popupPhotoView.querySelector('.popup__photo-caption');
 const photoCardTemplate = document.querySelector('.photo-card-template').content;
@@ -105,21 +104,21 @@ function addNewPhotoSubmitHandler(event) {
 
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
-    hidePopupErrors(popup, objectToValidate);
     document.removeEventListener('keyup', handleEscKey);
 }
 
-function preparePopupEditProfileForOpening() {
+function preparePopupProfileForOpening() {
     nameInput.value = profileUserName.textContent;
     profileDescriptionInput.value = profileDescription.textContent;
+    hidePopupErrors(popupEditProfile, objectToValidate);
     openPopup(popupEditProfile);
 }
 
 function preparePopupAddPhotoForOpening() {
     newPhotoDescriptionInput.value = '';
     newPhotoLinkInput.value = '';
-    popupAddPhotoSubmitButton.classList.add('popup__submit-button_inactive');
-    popupAddPhotoSubmitButton.setAttribute('disabled', true);
+    makeButtonInactive(popupAddPhotoSubmitButton, objectToValidate.inactiveButtonClass);
+    hidePopupErrors(popupAddPhoto, objectToValidate);
     openPopup(popupAddPhoto);
 }
 
@@ -166,7 +165,7 @@ function deletePhotoCard(event) {
     photoCardToBeDeleted.remove();
 }
 
-popupEditProfileOpenButton.addEventListener('click', preparePopupEditProfileForOpening);
+popupEditProfileOpenButton.addEventListener('click', preparePopupProfileForOpening);
 popupAddPhotoOpenButton.addEventListener('click', preparePopupAddPhotoForOpening);
 popupEditProfileForm.addEventListener('submit', editProfileFormSubmitHandler);
 popupAddPhotoForm.addEventListener('submit', addNewPhotoSubmitHandler);
