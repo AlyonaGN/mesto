@@ -6,11 +6,12 @@ const popupList = document.querySelectorAll('.popup');
 const profile = document.querySelector('.profile');
 const popupEditProfile = document.querySelector('.popup_type_profile');
 const popupEditProfileForm = popupEditProfile.querySelector('.popup__form');
-const popupEditProfileOpenButton = profile.querySelector('.profile__edit-button');
 const nameInput = popupEditProfile.querySelector('.popup__field_name');
 const profileDescriptionInput = popupEditProfile.querySelector('.popup__field_description');
 const profileUserName = profile.querySelector('.profile__name');
 const profileDescription = profile.querySelector('.profile__description');
+const popupEditProfileOpenButton = profile.querySelector('.profile__edit-button');
+const popupAddPhotoOpenButton = profile.querySelector('.profile__add-button');
 
 const objectToValidate = {
     formSelector: '.popup__form',
@@ -25,7 +26,6 @@ const objectToValidate = {
 
 const popupAddPhoto = document.querySelector('.popup_type_add-photo');
 const popupAddPhotoForm = popupAddPhoto.querySelector('.popup__form');
-const popupAddPhotoOpenButton = profile.querySelector('.profile__add-button');
 const popupAddPhotoSubmitButton = popupAddPhoto.querySelector('.popup__submit-button');
 const newPhotoDescriptionInput = popupAddPhoto.querySelector('.popup__field_photo-description');
 const newPhotoLinkInput = popupAddPhoto.querySelector('.popup__field_photo-link');
@@ -59,6 +59,12 @@ const initialCards = [
     }
 ];
 
+const profileFormToValidate = new FormValidator(objectToValidate, popupEditProfileForm);
+profileFormToValidate.enableValidation();
+
+const addPhotoFormToValidate = new FormValidator(objectToValidate, popupAddPhotoForm);
+addPhotoFormToValidate.enableValidation();
+
 initialCards.reverse().forEach((item) => {
     const card = new Card('.photo-card-template', item.name, item.link, openPopup);
     const cardElement = card.generateCard();
@@ -73,6 +79,26 @@ popupList.forEach(function (popup) {
         }
     });
 });
+
+function preparePopupProfileForOpening() {
+    nameInput.value = profileUserName.textContent;
+    profileDescriptionInput.value = profileDescription.textContent;
+    profileFormToValidate.hidePopupErrors(popupEditProfile);
+    openPopup(popupEditProfile);
+}
+
+function preparePopupAddPhotoForOpening() {
+    newPhotoDescriptionInput.value = '';
+    newPhotoLinkInput.value = '';
+    makeButtonInactive(popupAddPhotoSubmitButton, objectToValidate.inactiveButtonClass);
+    addPhotoFormToValidate.hidePopupErrors(popupAddPhoto);
+    openPopup(popupAddPhoto);
+}
+
+function makeButtonInactive(buttonElement, inactiveButtonSelector) {
+    buttonElement.classList.add(inactiveButtonSelector);
+    buttonElement.setAttribute('disabled', true);
+  }
 
 function addPhotoCard(photoCard) {
     photoCards.prepend(photoCard);
@@ -98,21 +124,6 @@ function closePopup(popup) {
     document.removeEventListener('keyup', handleEscKey);
 }
 
-function preparePopupProfileForOpening() {
-    nameInput.value = profileUserName.textContent;
-    profileDescriptionInput.value = profileDescription.textContent;
-    hidePopupErrors(popupEditProfile, objectToValidate);
-    openPopup(popupEditProfile);
-}
-
-function preparePopupAddPhotoForOpening() {
-    newPhotoDescriptionInput.value = '';
-    newPhotoLinkInput.value = '';
-    makeButtonInactive(popupAddPhotoSubmitButton, objectToValidate.inactiveButtonClass);
-    hidePopupErrors(popupAddPhoto, objectToValidate);
-    openPopup(popupAddPhoto);
-}
-
 function openPopup(popupToOpen) {
     popupToOpen.classList.add('popup_opened');
     document.addEventListener('keyup', handleEscKey);
@@ -135,15 +146,9 @@ function editProfileFormSubmitHandler(event) {
     closePopup(popup);
 }
 
-const profileFormToValidate = new FormValidator(objectToValidate, popupEditProfileForm);
-profileFormToValidate.enableValidation();
-
-const addPhotoFormToValidate = new FormValidator(objectToValidate, popupAddPhotoForm);
-addPhotoFormToValidate.enableValidation();
-
-popupEditProfileOpenButton.addEventListener('click', preparePopupProfileForOpening);
-popupAddPhotoOpenButton.addEventListener('click', preparePopupAddPhotoForOpening);
 popupEditProfileForm.addEventListener('submit', editProfileFormSubmitHandler);
 popupAddPhotoForm.addEventListener('submit', addNewPhotoSubmitHandler);
+popupEditProfileOpenButton.addEventListener('click', preparePopupProfileForOpening);
+popupAddPhotoOpenButton.addEventListener('click', preparePopupAddPhotoForOpening);
 
 

@@ -37,10 +37,10 @@ _showInputError(inputElement, errorMessage) {
   
   _toggleButtonState(inputList, buttonElement) {
     if (this._hasInvalidInput(inputList)) {
-      this._makeButtonInactive(buttonElement, inactiveButtonClass);
+      this._makeButtonInactive(buttonElement, this._objectToValidate.inactiveButtonClass);
     }
     else {
-      this._makeButtonActive(buttonElement, inactiveButtonClass);
+      this._makeButtonActive(buttonElement, this._objectToValidate.inactiveButtonClass);
     }
   }
   
@@ -53,6 +53,23 @@ _showInputError(inputElement, errorMessage) {
     buttonElement.classList.remove(this._objectToValidate.inactiveButtonClass);
     buttonElement.removeAttribute('disabled');
   }
+
+ hidePopupErrors(popup) {
+    const inputs = popup.querySelectorAll(this._objectToValidate.inputSelector);
+    inputs.forEach((input) => {
+      input.classList.remove(this._objectToValidate.inputErrorClass);
+    });
+  
+    const fields = popup.querySelectorAll(this._objectToValidate.fieldSelector);
+    fields.forEach((field) => {
+      field.classList.remove(this._objectToValidate.fieldErrorSelector);
+    });
+  
+    const errors = popup.querySelectorAll(this._objectToValidate.errorClass);
+    errors.forEach((error) => {
+      error.textContent = '';
+    });
+  }
   
  _setEventListeners (formElement) {
     const inputList = Array.from(formElement.querySelectorAll(this._objectToValidate.fieldSelector));
@@ -60,27 +77,10 @@ _showInputError(inputElement, errorMessage) {
     this._toggleButtonState(inputList, buttonElement, this._objectToValidate.inactiveButtonClass);
   
     inputList.forEach((inputElement) => {
-      inputElement.addEventListener('input', function () {
+      inputElement.addEventListener('input', () => {
         this._checkInputValidity(inputElement);
         this._toggleButtonState(inputList, buttonElement);
       });
-    });
-  }
-  
-_hidePopupErrors(popup, { inputSelector, fieldSelector, errorClass, fieldErrorSelector, inputErrorClass }) {
-    const inputs = popup.querySelectorAll(inputSelector);
-    inputs.forEach(function (input) {
-      input.classList.remove(inputErrorClass);
-    });
-  
-    const fields = popup.querySelectorAll(fieldSelector);
-    fields.forEach(function (field) {
-      field.classList.remove(fieldErrorSelector);
-    });
-  
-    const errors = popup.querySelectorAll(errorClass);
-    errors.forEach(function (error) {
-      error.textContent = '';
     });
   }
   
@@ -88,7 +88,7 @@ _hidePopupErrors(popup, { inputSelector, fieldSelector, errorClass, fieldErrorSe
     const formList = document.querySelectorAll(this._objectToValidate.formSelector);
   
     formList.forEach((formElement) => {
-      formElement.addEventListener('submit', function (evt) {
+      formElement.addEventListener('submit', (evt) => {
         evt.preventDefault();
       });
   
