@@ -1,22 +1,22 @@
 export class FormValidator {
-  constructor(objectToValidate, formToValidate) {
-    this._objectToValidate = objectToValidate;
+  constructor(validationConfig, formToValidate) {
+    this._validationConfig = validationConfig;
     this._formToValidate = formToValidate;
 }
 
 _showInputError(inputElement, errorMessage) {
-    const errorInput = inputElement.closest(this._objectToValidate.inputSelector);
-    errorInput.classList.add(this._objectToValidate.inputErrorClass);
-    const errorElement = errorInput.querySelector(this._objectToValidate.errorClass);
-    inputElement.classList.add(this._objectToValidate.fieldErrorSelector);
+    const errorInput = inputElement.closest(this._validationConfig.inputSelector);
+    errorInput.classList.add(this._validationConfig.inputErrorClass);
+    const errorElement = errorInput.querySelector(this._validationConfig.errorClass);
+    inputElement.classList.add(this._validationConfig.fieldErrorSelector);
     errorElement.textContent = errorMessage;
   }
   
  _hideInputError(inputElement) {
-    const errorInput = inputElement.closest(this._objectToValidate.inputSelector);
-    errorInput.classList.remove(this._objectToValidate.inputErrorClass);
-    const errorElement = errorInput.querySelector(this._objectToValidate.errorClass);
-    inputElement.classList.remove(this._objectToValidate.fieldErrorSelector);
+    const errorInput = inputElement.closest(this._validationConfig.inputSelector);
+    errorInput.classList.remove(this._validationConfig.inputErrorClass);
+    const errorElement = errorInput.querySelector(this._validationConfig.errorClass);
+    inputElement.classList.remove(this._validationConfig.fieldErrorSelector);
     errorElement.textContent = '';
   }
   
@@ -37,44 +37,44 @@ _showInputError(inputElement, errorMessage) {
   
   _toggleButtonState(inputList, buttonElement) {
     if (this._hasInvalidInput(inputList)) {
-      this._makeButtonInactive(buttonElement, this._objectToValidate.inactiveButtonClass);
+      this._makeButtonInactive(buttonElement, this._validationConfig.inactiveButtonClass);
     }
     else {
-      this._makeButtonActive(buttonElement, this._objectToValidate.inactiveButtonClass);
+      this._makeButtonActive(buttonElement, this._validationConfig.inactiveButtonClass);
     }
   }
   
   _makeButtonInactive(buttonElement) {
-    buttonElement.classList.add(this._objectToValidate.inactiveButtonClass);
+    buttonElement.classList.add(this._validationConfig.inactiveButtonClass);
     buttonElement.setAttribute('disabled', true);
   }
   
   _makeButtonActive(buttonElement) {
-    buttonElement.classList.remove(this._objectToValidate.inactiveButtonClass);
+    buttonElement.classList.remove(this._validationConfig.inactiveButtonClass);
     buttonElement.removeAttribute('disabled');
   }
 
  hidePopupErrors(popup) {
-    const inputs = popup.querySelectorAll(this._objectToValidate.inputSelector);
+    const inputs = popup.querySelectorAll(this._validationConfig.inputSelector);
     inputs.forEach((input) => {
-      input.classList.remove(this._objectToValidate.inputErrorClass);
+      input.classList.remove(this._validationConfig.inputErrorClass);
     });
   
-    const fields = popup.querySelectorAll(this._objectToValidate.fieldSelector);
+    const fields = popup.querySelectorAll(this._validationConfig.fieldSelector);
     fields.forEach((field) => {
-      field.classList.remove(this._objectToValidate.fieldErrorSelector);
+      field.classList.remove(this._validationConfig.fieldErrorSelector);
     });
   
-    const errors = popup.querySelectorAll(this._objectToValidate.errorClass);
+    const errors = popup.querySelectorAll(this._validationConfig.errorClass);
     errors.forEach((error) => {
       error.textContent = '';
     });
   }
   
  _setEventListeners (formElement) {
-    const inputList = Array.from(formElement.querySelectorAll(this._objectToValidate.fieldSelector));
-    const buttonElement = formElement.querySelector(this._objectToValidate.submitButtonSelector);
-    this._toggleButtonState(inputList, buttonElement, this._objectToValidate.inactiveButtonClass);
+    const inputList = Array.from(formElement.querySelectorAll(this._validationConfig.fieldSelector));
+    const buttonElement = formElement.querySelector(this._validationConfig.submitButtonSelector);
+    this._toggleButtonState(inputList, buttonElement, this._validationConfig.inactiveButtonClass);
   
     inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {
@@ -85,7 +85,7 @@ _showInputError(inputElement, errorMessage) {
   }
   
   enableValidation() {
-    const formList = document.querySelectorAll(this._objectToValidate.formSelector);
+    const formList = document.querySelectorAll(this._validationConfig.formSelector);
   
     formList.forEach((formElement) => {
       formElement.addEventListener('submit', (evt) => {

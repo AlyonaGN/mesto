@@ -1,9 +1,10 @@
+import { openPopup } from './utils.js';
+
 export class Card {
-    constructor(photoCardSelector, photoDescription, link, openPopupPhotoView) {
+    constructor(photoCardSelector, photoDescription, link) {
         this._photoCardSelector = photoCardSelector;
         this._photoDescription = photoDescription;
         this._link = link;
-        this._openPopupPhotoView = openPopupPhotoView;
     }
 
     _getTemplate() {
@@ -64,6 +65,6 @@ export class Card {
         popupPhotoFullScreen.src = photoFullScreenElement.src;
         popupPhotoFullScreenCaption.innerText = photoCardFullScreen.querySelector('.photo-card__description').innerText;
         popupPhotoFullScreen.alt = photoFullScreenElement.alt;
-        this._openPopupPhotoView(popupPhotoView);    
+        openPopup(popupPhotoView);    
     }
 }
