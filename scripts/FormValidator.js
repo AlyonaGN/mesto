@@ -54,7 +54,7 @@ _showInputError(inputElement, errorMessage) {
     buttonElement.removeAttribute('disabled');
   }
 
- hidePopupErrors(popup) {
+ _hidePopupErrors(popup) {
     const inputs = popup.querySelectorAll(this._validationConfig.inputSelector);
     inputs.forEach((input) => {
       input.classList.remove(this._validationConfig.inputErrorClass);
@@ -69,6 +69,11 @@ _showInputError(inputElement, errorMessage) {
     errors.forEach((error) => {
       error.textContent = '';
     });
+  }
+
+  resetForm(popup, buttonElement) {
+    this._makeButtonInactive(buttonElement);
+    this._hidePopupErrors(popup);
   }
   
  _setEventListeners (formElement) {

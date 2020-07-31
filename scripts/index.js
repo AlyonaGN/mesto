@@ -20,8 +20,6 @@ const newPhotoLinkInput = popupAddPhoto.querySelector('.popup__field_photo-link'
 const popupAddPhotoOpenButton = profile.querySelector('.profile__add-button');
 const photoCardTemplateClass = '.photo-card-template';
 
-const inactiveSumbitButtonSelector = 'popup__submit-button_inactive';
-
 const popupList = document.querySelectorAll('.popup');
 
 initialCards.reverse().forEach((item) => {
@@ -37,18 +35,22 @@ popupList.forEach(function (popup) {
     });
 });
 
-function openProfilePopup(profileFormValidator) {
+const profileFormValidator = new FormValidator(validationConfig, popupEditProfileForm);
+const addPhotoFormValidator = new FormValidator(validationConfig, popupAddPhotoForm);
+profileFormValidator.enableValidation();
+addPhotoFormValidator.enableValidation();
+
+function openProfilePopup() {
     nameInput.value = profileUserName.textContent;
     profileDescriptionInput.value = profileDescription.textContent;
     profileFormValidator.hidePopupErrors(popupEditProfile);
     openPopup(popupEditProfile);
 }
 
-function openAddPhotoPopup(addPhotoFormValidator) {
+function openAddPhotoPopup() {
     newPhotoDescriptionInput.value = '';
     newPhotoLinkInput.value = '';
-    makeButtonInactive(popupAddPhotoSubmitButton, inactiveSumbitButtonSelector);
-    addPhotoFormValidator.hidePopupErrors(popupAddPhoto);
+    addPhotoFormValidator.resetForm(popupAddPhoto, popupAddPhotoSubmitButton);
     openPopup(popupAddPhoto);
 }
 
@@ -71,11 +73,6 @@ function addNewPhotoSubmitHandler(event) {
     newPhotoLinkInput.value = '';
 }
 
-function makeButtonInactive(buttonElement, inactiveButtonSelector) {
-    buttonElement.classList.add(inactiveButtonSelector);
-    buttonElement.setAttribute('disabled', true);
-  }
-
 function addPhotoCard(photoCard) {
     const photoCards = document.querySelector('.photo-cards__list');
     photoCards.prepend(photoCard);
@@ -91,13 +88,8 @@ function editProfileFormSubmitHandler(event) {
     closePopup(popup);
 }
 
-const profileFormValidator = new FormValidator(validationConfig, popupEditProfileForm);
-const addPhotoFormValidator = new FormValidator(validationConfig, popupAddPhotoForm);
-profileFormValidator.enableValidation();
-addPhotoFormValidator.enableValidation();
-
 popupEditProfileForm.addEventListener('submit', editProfileFormSubmitHandler);
 popupAddPhotoForm.addEventListener('submit', () => { addNewPhotoSubmitHandler(event) });
-popupEditProfileOpenButton.addEventListener('click', () => { openProfilePopup(profileFormValidator) });
-popupAddPhotoOpenButton.addEventListener('click', () => { openAddPhotoPopup(addPhotoFormValidator) });
+popupEditProfileOpenButton.addEventListener('click', openProfilePopup);
+popupAddPhotoOpenButton.addEventListener('click', openAddPhotoPopup);
 

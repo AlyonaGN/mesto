@@ -56,15 +56,13 @@ export class Card {
         event.preventDefault();
         event.stopPropagation();
         
-        const photoCardFullScreen = event.target.closest('.photo-card');
-        const photoFullScreenElement = photoCardFullScreen.querySelector('.photo-card__photo');
         const popupPhotoFullScreen = document.querySelector('.popup__photo-fullscreen');
         const popupPhotoFullScreenCaption = document.querySelector('.popup__photo-caption');
         const popupPhotoView = document.querySelector('.popup_type_photo-view');
 
-        popupPhotoFullScreen.src = photoFullScreenElement.src;
-        popupPhotoFullScreenCaption.innerText = photoCardFullScreen.querySelector('.photo-card__description').innerText;
-        popupPhotoFullScreen.alt = photoFullScreenElement.alt;
+        popupPhotoFullScreen.src = this._link;
+        popupPhotoFullScreenCaption.innerText = this._photoDescription;
+        popupPhotoFullScreen.alt = this._photoDescription;
         openPopup(popupPhotoView);    
     }
 }
