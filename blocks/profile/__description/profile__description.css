@@ -5,6 +5,7 @@
   font-size: 18px;
   line-height: 1.22;
   display: block;
+  max-width: 92%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
