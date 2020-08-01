@@ -22,23 +22,8 @@ const photoCardTemplateClass = '.photo-card-template';
 
 const popupList = document.querySelectorAll('.popup');
 
-initialCards.reverse().forEach((item) => {
-    const cardElement = createCard(item.name, item.link);
-    addPhotoCard(cardElement);
-  });
-
-popupList.forEach(function (popup) {
-    popup.addEventListener('click', (event) => {
-        if (event.target.classList.contains('popup') || event.target.classList.contains('popup__close-button')) {
-            closePopup(popup);
-        }
-    });
-});
-
 const profileFormValidator = new FormValidator(validationConfig, popupEditProfileForm);
 const addPhotoFormValidator = new FormValidator(validationConfig, popupAddPhotoForm);
-profileFormValidator.enableValidation();
-addPhotoFormValidator.enableValidation();
 
 function openProfilePopup() {
     nameInput.value = profileUserName.textContent;
@@ -59,6 +44,11 @@ function createCard(cardName, cardLink) {
     return newPhotoCard.generateCard();
 }
 
+function addPhotoCard(photoCard) {
+    const photoCards = document.querySelector('.photo-cards__list');
+    photoCards.prepend(photoCard);
+}
+
 function addNewPhotoSubmitHandler(event) {
     event.preventDefault();
     event.stopPropagation();
@@ -73,11 +63,6 @@ function addNewPhotoSubmitHandler(event) {
     newPhotoLinkInput.value = '';
 }
 
-function addPhotoCard(photoCard) {
-    const photoCards = document.querySelector('.photo-cards__list');
-    photoCards.prepend(photoCard);
-}
-
 function editProfileFormSubmitHandler(event) {
     event.preventDefault();
     event.stopPropagation();
@@ -87,6 +72,22 @@ function editProfileFormSubmitHandler(event) {
     const popup = event.target.closest('.popup');
     closePopup(popup);
 }
+
+initialCards.reverse().forEach((item) => {
+    const cardElement = createCard(item.name, item.link);
+    addPhotoCard(cardElement);
+  });
+
+popupList.forEach(function (popup) {
+    popup.addEventListener('click', (event) => {
+        if (event.target.classList.contains('popup') || event.target.classList.contains('popup__close-button')) {
+            closePopup(popup);
+        }
+    });
+});
+
+profileFormValidator.enableValidation();
+addPhotoFormValidator.enableValidation();
 
 popupEditProfileForm.addEventListener('submit', editProfileFormSubmitHandler);
 popupAddPhotoForm.addEventListener('submit', () => { addNewPhotoSubmitHandler(event) });
