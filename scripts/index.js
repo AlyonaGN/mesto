@@ -1,5 +1,6 @@
 import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
+import { Section } from './Section.js';
 import { openPopup, closePopup } from './utils.js';
 import { validationConfig } from './config.js';
 
@@ -18,12 +19,23 @@ const popupAddPhotoSubmitButton = popupAddPhoto.querySelector('.popup__submit-bu
 const newPhotoDescriptionInput = popupAddPhoto.querySelector('.popup__field_photo-description');
 const newPhotoLinkInput = popupAddPhoto.querySelector('.popup__field_photo-link');
 const popupAddPhotoOpenButton = profile.querySelector('.profile__add-button');
+
+const photoCardsListSelector = '.photo-cards__list';
 const photoCardTemplateClass = '.photo-card-template';
 
 const popupList = document.querySelectorAll('.popup');
 
 const profileFormValidator = new FormValidator(validationConfig, popupEditProfileForm);
 const addPhotoFormValidator = new FormValidator(validationConfig, popupAddPhotoForm);
+
+const initialCardsList = new Section({ 
+    items: initialCards, 
+    renderer: (item) => {
+        const cardElement = createCard(item.name, item.link);
+        initialCardsList.setItem(cardElement);
+        },
+    }, 
+    photoCardsListSelector);
 
 function openProfilePopup() {
     nameInput.value = profileUserName.textContent;
@@ -73,11 +85,6 @@ function editProfileFormSubmitHandler(event) {
     closePopup(popup);
 }
 
-initialCards.reverse().forEach((item) => {
-    const cardElement = createCard(item.name, item.link);
-    addPhotoCard(cardElement);
-  });
-
 popupList.forEach(function (popup) {
     popup.addEventListener('click', (event) => {
         if (event.target.classList.contains('popup') || event.target.classList.contains('popup__close-button')) {
@@ -88,6 +95,8 @@ popupList.forEach(function (popup) {
 
 profileFormValidator.enableValidation();
 addPhotoFormValidator.enableValidation();
+
+initialCardsList.renderItems();
 
 popupEditProfileForm.addEventListener('submit', editProfileFormSubmitHandler);
 popupAddPhotoForm.addEventListener('submit', () => { addNewPhotoSubmitHandler(event) });
