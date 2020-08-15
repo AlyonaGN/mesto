@@ -1,10 +1,11 @@
-import { openPopup } from './utils.js';
+//import { openPopup } from './utils.js';
 
 export class Card {
-    constructor(photoCardSelector, photoDescription, link) {
+    constructor(photoCardSelector, photoDescription, link, { handleCardClick }) {
         this._photoCardSelector = photoCardSelector;
         this._photoDescription = photoDescription;
         this._link = link;
+        this._handleCardClick = handleCardClick;
     }
 
     _getTemplate() {
@@ -39,7 +40,7 @@ export class Card {
         });
 
         this._element.querySelector('.photo-card__photo').addEventListener('click', () => {
-            this._openPhotoCardFullScreen(event);
+            this._handleCardClick(event);
         });
     }
 
@@ -52,17 +53,4 @@ export class Card {
         event.target.classList.toggle('photo-card__like_active');
     }
 
-    _openPhotoCardFullScreen(event) {
-        event.preventDefault();
-        event.stopPropagation();
-        
-        const popupPhotoFullScreen = document.querySelector('.popup__photo-fullscreen');
-        const popupPhotoFullScreenCaption = document.querySelector('.popup__photo-caption');
-        const popupPhotoView = document.querySelector('.popup_type_photo-view');
-
-        popupPhotoFullScreen.src = this._link;
-        popupPhotoFullScreenCaption.innerText = this._photoDescription;
-        popupPhotoFullScreen.alt = this._photoDescription;
-        openPopup(popupPhotoView);    
-    }
 }
