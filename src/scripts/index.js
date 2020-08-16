@@ -5,6 +5,8 @@ import { PopupWithImage } from './PopupWithImage.js';
 import { PopupWithForm } from './PopupWithForm.js';
 import { UserInfo } from './UserInfo.js';
 import { validationConfig } from './config.js';
+import { initialCards } from './initial-cards.js';
+import '../pages/index.css';
 
 const popupEditProfile = document.querySelector('.popup_type_profile');
 const popupEditProfileForm = popupEditProfile.querySelector('.popup__form');

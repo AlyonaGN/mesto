@@ -1,5 +1,3 @@
-//import { openPopup } from './utils.js';
-
 export class Card {
     constructor(photoCardSelector, photoDescription, link, { handleCardClick }) {
         this._photoCardSelector = photoCardSelector;
