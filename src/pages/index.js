@@ -1,12 +1,12 @@
-import { Card } from './Card.js';
-import { FormValidator } from './FormValidator.js';
-import { Section } from './Section.js';
-import { PopupWithImage } from './PopupWithImage.js';
-import { PopupWithForm } from './PopupWithForm.js';
-import { UserInfo } from './UserInfo.js';
-import { validationConfig } from './config.js';
-import { initialCards } from './initial-cards.js';
-import '../pages/index.css';
+import { Card } from '../components/Card.js';
+import { FormValidator } from '../components/FormValidator.js';
+import { Section } from '../components/Section.js';
+import { PopupWithImage } from '../components/PopupWithImage.js';
+import { PopupWithForm } from '../components/PopupWithForm.js';
+import { UserInfo } from '../components/UserInfo.js';
+import { validationConfig } from '../utils/config.js';
+import { initialCards } from '../utils/initial-cards.js';
+import './index.css';
 
 const popupEditProfile = document.querySelector('.popup_type_profile');
 const popupEditProfileForm = popupEditProfile.querySelector('.popup__form');
@@ -23,7 +23,13 @@ const newPhotoLinkInput = popupAddPhoto.querySelector('.popup__field_photo-link'
 const popupAddPhotoOpenButton = profile.querySelector('.profile__add-button');
 
 const photoCardsListSelector = '.photo-cards__list';
-const photoCardTemplateClass = '.photo-card-template';
+const photoCardTemplateSelector = '.photo-card-template';
+const PopupClass = 'popup';
+const openedPopupModifier = 'popup_opened';
+const closePopupButtonClass = 'popup__close-button';
+const popupInputSelector = '.popup__field';
+const popupFormSelector = '.popup__form';
+
 
 const profileFormValidator = new FormValidator(validationConfig, popupEditProfileForm);
 const addPhotoFormValidator = new FormValidator(validationConfig, popupAddPhotoForm);
@@ -33,7 +39,7 @@ const initialCardsList = new Section({
     items: initialCards, 
     renderer: (item) => {
         const cardElement = createCard(item.name, item.link);
-        initialCardsList.setItem(cardElement);
+        initialCardsList.addItem(cardElement);
         },
     }, 
     photoCardsListSelector);
@@ -42,7 +48,12 @@ const userProfileData = new UserInfo( { userNameSelector: '.profile__name',
 profileDescriptionSelector: '.profile__description' } );
 
     const profileForm = new PopupWithForm({
-    popupSelector: '.popup_type_profile', 
+    popupSelector: '.popup_type_profile',
+    commonPopupClass: PopupClass, 
+    openedPopupClass: openedPopupModifier, 
+    closeButtonClass: closePopupButtonClass,
+    inputSelector: popupInputSelector, 
+    formSelector: popupFormSelector, 
     handleFormSubmit: (formValues) => {
 
         userProfileData.setUserInfo(formValues);
@@ -53,25 +64,31 @@ profileDescriptionSelector: '.profile__description' } );
 
 const addPhotoForm = new PopupWithForm({
     popupSelector: '.popup_type_add-photo',
+    commonPopupClass: PopupClass, 
+    openedPopupClass: openedPopupModifier, 
+    closeButtonClass: closePopupButtonClass,
+    inputSelector: popupInputSelector, 
+    formSelector: popupFormSelector,
     handleFormSubmit: () => {
 
         const newPhotoCard = createCard(newPhotoDescriptionInput.value, newPhotoLinkInput.value);
 
-        const card = new Section({}, photoCardsListSelector);
-        card.setItem(newPhotoCard);
+        initialCardsList.addItem(newPhotoCard);
 
         addPhotoForm.close();
     }
 });
 
+const popupWithPhoto = new PopupWithImage('.popup_type_photo-view', PopupClass, openedPopupModifier,
+closePopupButtonClass, '.popup__photo-fullscreen', '.popup__photo-caption');
+
 function createCard(cardName, cardLink) {
-    const newPhotoCard = new Card(photoCardTemplateClass, cardName, cardLink, 
+    const newPhotoCard = new Card(photoCardTemplateSelector, cardName, cardLink, 
         {
             handleCardClick: () => {
-                const popup = new PopupWithImage(cardLink, cardName, '.popup_type_photo-view');
-                popup.open(event);
-                popup.setEventListeners();
-                popup.setEventListenerCloseWithEsc();
+                
+                popupWithPhoto.open(event, cardLink, cardName);
+                popupWithPhoto.setEventListeners();
             }
     });
     return newPhotoCard.generateCard();
@@ -79,9 +96,6 @@ function createCard(cardName, cardLink) {
 
 addPhotoForm.setEventListeners();
 profileForm.setEventListeners();
-
-addPhotoForm.setEventListenerCloseWithEsc();
-profileForm.setEventListenerCloseWithEsc();
 
 
 profileFormValidator.enableValidation();
@@ -94,11 +108,11 @@ popupEditProfileOpenButton.addEventListener('click', () => {
     nameInput.value = userData[nameInput.name];
     profileDescriptionInput.value = userData[profileDescriptionInput.name];
     profileFormValidator.hidePopupErrors(popupEditProfile);
-    profileForm.open(event);
+    profileForm.open();
 });
 
 popupAddPhotoOpenButton.addEventListener('click', () => { 
     addPhotoFormValidator.resetForm(popupAddPhoto, popupAddPhotoSubmitButton);
-    addPhotoForm.open(event) 
+    addPhotoForm.open() 
 });
 
