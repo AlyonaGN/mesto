@@ -9,10 +9,7 @@ export class PopupWithImage extends Popup {
         this._photoCaption = this._popup.querySelector(this._photoCaptionSelector);
     }
     
-    open(event, link, photoDescription) {
-        event.preventDefault();
-        event.stopPropagation();
-
+    open(link, photoDescription) {
         this._photoFullScreen.src = link;
         this._photoCaption.innerText = photoDescription;
         this._photoFullScreen.alt = photoDescription;

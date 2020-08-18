@@ -81,14 +81,14 @@ const addPhotoForm = new PopupWithForm({
 
 const popupWithPhoto = new PopupWithImage('.popup_type_photo-view', PopupClass, openedPopupModifier,
 closePopupButtonClass, '.popup__photo-fullscreen', '.popup__photo-caption');
+popupWithPhoto.setEventListeners();
 
 function createCard(cardName, cardLink) {
     const newPhotoCard = new Card(photoCardTemplateSelector, cardName, cardLink, 
         {
             handleCardClick: () => {
                 
-                popupWithPhoto.open(event, cardLink, cardName);
-                popupWithPhoto.setEventListeners();
+                popupWithPhoto.open(cardLink, cardName);
             }
     });
     return newPhotoCard.generateCard();
@@ -113,6 +113,6 @@ popupEditProfileOpenButton.addEventListener('click', () => {
 
 popupAddPhotoOpenButton.addEventListener('click', () => { 
     addPhotoFormValidator.resetForm(popupAddPhoto, popupAddPhotoSubmitButton);
-    addPhotoForm.open() 
+    addPhotoForm.open(); 
 });
 
