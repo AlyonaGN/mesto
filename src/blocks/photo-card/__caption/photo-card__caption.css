@@ -1,9 +1,8 @@
 .photo-card__caption {
     width: 87.23%;
     padding-left: 21px;
-    padding-top: 23px;
-    padding-bottom: 30px;
+    padding-top: 21px;
+    padding-bottom: 24px;
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
 }
