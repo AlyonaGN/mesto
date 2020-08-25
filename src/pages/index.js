@@ -15,6 +15,7 @@ const profile = document.querySelector('.profile');
 const nameInput = popupEditProfile.querySelector('.popup__field_name');
 const profileDescriptionInput = popupEditProfile.querySelector('.popup__field_description');
 const popupEditProfileOpenButton = profile.querySelector('.profile__edit-button');
+const avatarOverlay = profile.querySelector('.profile__avatar-overlay');
 
 const popupAddPhoto = document.querySelector('.popup_type_add-photo');
 const popupAddPhotoForm = popupAddPhoto.querySelector('.popup__form');
@@ -23,7 +24,10 @@ const newPhotoDescriptionInput = popupAddPhoto.querySelector('.popup__field_phot
 const newPhotoLinkInput = popupAddPhoto.querySelector('.popup__field_photo-link');
 const popupAddPhotoOpenButton = profile.querySelector('.profile__add-button');
 
-const popupDeletePhoto = document.querySelector('.popup_type_delete-card');
+const popupEditAvatarElement = document.querySelector('.popup_type_change-avatar');
+const popupEditAvatarForm = popupEditAvatarElement.querySelector('.popup__form');
+const newAvatarLinkInput = popupEditAvatarElement.querySelector('.popup__field_photo-link');
+const popupEditAvatarSubmitButton = popupEditAvatarElement.querySelector('.popup__submit-button');
 
 const myPhotoCardTemplateSelector = '.photo-card-template_mine';
 
@@ -35,18 +39,24 @@ const openedPopupModifier = 'popup_opened';
 const closePopupButtonClass = 'popup__close-button';
 const popupInputSelector = '.popup__field';
 const popupFormSelector = '.popup__form';
+const popupSubmitButtonSelector = '.popup__submit-button';
 
 const avatarSelector = '.profile__avatar';
 
-const userProfileData = new UserInfo( { 
+const userProfileData = new UserInfo({ 
     userNameSelector: '.profile__name', 
     profileDescriptionSelector: '.profile__description', 
     avatarSelector: avatarSelector 
-} );
+});
 
-api.getUserData()
-    .then((data) => {
-        userProfileData.setUserInfo({userName: data.name, userDescription: data.about, userAvatar: data.avatar});
+api.loadAppInfo()
+    .then(([cardList, userData]) => {
+        userProfileData.setUserInfo({
+            userName: userData.name, 
+            userDescription: userData.about, 
+            userAvatar: userData.avatar
+        });
+        cardRenderer.renderItems(cardList);
     })
     .catch((error) => {
         console.log(error);
@@ -60,15 +70,9 @@ const cardRenderer = new Section({
 },
     photoCardsListSelector);    
 
-api.getInitialCards()
-    .then((cards) => {
-        cardRenderer.renderItems(cards);
-    }).catch((error) => {
-        console.log(error);
-    });
-
 const profileFormValidator = new FormValidator(validationConfig, popupEditProfileForm);
 const addPhotoFormValidator = new FormValidator(validationConfig, popupAddPhotoForm);
+const editAvatarValidator = new FormValidator(validationConfig, popupEditAvatarForm);
 
 const profileForm = new PopupWithForm({
     popupSelector: '.popup_type_profile',
@@ -77,12 +81,17 @@ const profileForm = new PopupWithForm({
     closeButtonClass: closePopupButtonClass,
     inputSelector: popupInputSelector,
     formSelector: popupFormSelector,
+    submitButtonSelector: popupSubmitButtonSelector,
     handleFormSubmit: (formValues) => {
+        profileForm.makeButtonLoading('Сохранение...');
         api.editProfile(formValues)
         .then(() => {
             api.getUserData()
             .then((data) => {
-                userProfileData.setUserInfo({ userName: data.name, userDescription: data.about });
+                userProfileData.setUserInfo({ 
+                    userName: data.name, 
+                    userDescription: data.about 
+                });
             })
             .catch((error) => {
                 console.log(error);
@@ -101,8 +110,9 @@ const addPhotoForm = new PopupWithForm({
     closeButtonClass: closePopupButtonClass,
     inputSelector: popupInputSelector, 
     formSelector: popupFormSelector,
+    submitButtonSelector: popupSubmitButtonSelector,
     handleFormSubmit: () => {
-
+        addPhotoForm.makeButtonLoading('Создание...');
         api.addNewCard(newPhotoLinkInput.value, newPhotoDescriptionInput.value)
             .then((cardData) => {
                 return createCard(cardData.name, cardData.link, cardData.likes.length, cardData.owner._id, cardData._id);
@@ -112,7 +122,34 @@ const addPhotoForm = new PopupWithForm({
             })
             .then(() => {
                 addPhotoForm.close();
+            })
+            .catch((error) => {
+                console.log(error);
             });
+    }
+});
+
+const popupEditAvatar = new PopupWithForm({
+    popupSelector: '.popup_type_change-avatar', 
+    commonPopupClass: popupClass, 
+    openedPopupClass: openedPopupModifier, 
+    closeButtonClass: closePopupButtonClass,
+    inputSelector: popupInputSelector, 
+    formSelector: popupFormSelector,
+    submitButtonSelector: popupSubmitButtonSelector, 
+    handleFormSubmit: () => {
+        popupEditAvatar.makeButtonLoading('Сохранение...');
+        api.changeAvatar(newAvatarLinkInput.value) 
+            .then((res) => {
+                userProfileData.setUserInfo({userAvatar: res.avatar});
+            })
+            .then(() => {
+                popupEditAvatar.close();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
     }
 });
 
@@ -136,6 +173,9 @@ function createCard(cardName, cardLink, amountOfLikes, ownerId, cardId) {
                         .then((likedCard) => {
                             photoLikesAmount.textContent = likedCard.likes.length;
                             newPhotoCard._toggleLike(event);
+                        })
+                        .catch((error) => {
+                            console.log(error);
                         });
                 }
                 else {
@@ -143,6 +183,9 @@ function createCard(cardName, cardLink, amountOfLikes, ownerId, cardId) {
                         .then((likedCard) => {
                             photoLikesAmount.textContent = likedCard.likes.length;
                             newPhotoCard._toggleLike(event);
+                        })
+                        .catch((error) => {
+                            console.log(error);
                         });
                 }
             }
@@ -158,18 +201,21 @@ function createCard(cardName, cardLink, amountOfLikes, ownerId, cardId) {
                     formSelector: popupFormSelector, 
                     handleSubmitButton: () => {
                         api.deleteCard(cardId)
-                            .then((deletedCard) => {
-                                console.log(deletedCard);
+                            .then(() => {
                                 cardToDelete.remove();
                             })
                             .then(() => {
                                 popupDeleteCard.close();
+                            })
+                            .catch((error) => {
+                                console.log(error);
                             });   
                     } 
                 });
                 
-                popupDeleteCard.open();
                 popupDeleteCard.setEventListeners();
+                popupDeleteCard.open();
+                
             }
         });
     return newPhotoCard.generateCard();
@@ -177,10 +223,11 @@ function createCard(cardName, cardLink, amountOfLikes, ownerId, cardId) {
 
 addPhotoForm.setEventListeners();
 profileForm.setEventListeners();
-
+popupEditAvatar.setEventListeners();
 
 profileFormValidator.enableValidation();
 addPhotoFormValidator.enableValidation();
+editAvatarValidator.enableValidation();
 
 popupEditProfileOpenButton.addEventListener('click', () => {
     const userData = userProfileData.getUserInfo();
@@ -193,5 +240,10 @@ popupEditProfileOpenButton.addEventListener('click', () => {
 popupAddPhotoOpenButton.addEventListener('click', () => { 
     addPhotoFormValidator.resetForm(popupAddPhoto, popupAddPhotoSubmitButton);
     addPhotoForm.open(); 
+});
+
+avatarOverlay.addEventListener('click', () => { 
+    editAvatarValidator.resetForm(popupEditAvatarElement, popupEditAvatarSubmitButton);
+    popupEditAvatar.open(); 
 });
 

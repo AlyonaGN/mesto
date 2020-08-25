@@ -67,7 +67,7 @@
           <span class="popup__field-error"></span>
         </label>
 
-        <button type="submit" class="popup__submit-button">Сохранить</button>
+        <button type="submit" class="popup__submit-button" name="Сохранить">Сохранить</button>
 
       </form>
 
@@ -91,7 +91,7 @@
           <span class="popup__field-error"></span>
         </label>
 
-        <button type="submit" class="popup__submit-button">Создать</button>
+        <button type="submit" class="popup__submit-button" name="Создать">Создать</button>
 
       </form>
 
@@ -106,6 +106,25 @@
         <h2 class="popup__header">Вы уверены?</h2>
 
         <button type="submit" class="popup__submit-button">Да</button>
+
+      </form>
+
+    </div>
+
+    <div class="popup popup_type_change-avatar">
+       
+      <form class ="popup__form" name="popup-form" novalidate>
+
+        <button type="button" class="popup__close-button"></button>
+
+        <h2 class="popup__header">Обновить аватар</h2>
+
+        <label class="popup__input">
+          <input class="popup__field popup__field popup__field_photo-link" type="url" placeholder="Ссылка на новый аватар" name="avatar-link" required>
+          <span class="popup__field-error"></span>
+        </label>
+
+        <button type="submit" class="popup__submit-button" name="Сохранить">Сохранить</button>
 
       </form>
 

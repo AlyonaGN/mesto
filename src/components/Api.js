@@ -127,6 +127,30 @@ export class Api {
         });
     }
 
+    changeAvatar(avatarLink) {
+        return fetch('https://mesto.nomoreparties.co/v1/cohort-14/users/me/avatar', {
+            method: 'PATCH',
+            headers: {
+                authorization: '281eea5d-a9b0-4240-a494-1ec91d19957f',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                avatar: avatarLink,
+            })
+        })
+        .then(res => { 
+            if (res.ok) {
+                return res.json();
+            }
+
+            return Promise.reject(`Ошибка: ${res.status}`);
+        });
+    }
+
+    loadAppInfo() {
+        return Promise.all([this.getInitialCards(), this.getUserData()]);
+      }
+
 }
 
 export const api = new Api({

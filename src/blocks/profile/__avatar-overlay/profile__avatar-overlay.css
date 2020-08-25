@@ -22,6 +22,7 @@
 
 .profile__avatar-overlay:hover:before {
   opacity: 0.8;
+  cursor: pointer;
   -webkit-transition: opacity 1.5s ease;
   -moz-transition: opacity 1.5s ease;
   -ms-transition: opacity 1.5s ease;
@@ -36,4 +37,12 @@
   -ms-transition: opacity 1.5s ease;
   -o-transition: opacity 1.5s ease;
   transition: opacity 1.5s ease;
+}
+
+@media screen and (max-width: 900px) {
+  .profile__avatar-overlay {
+    margin-bottom: 14px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
