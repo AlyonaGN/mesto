@@ -5,146 +5,100 @@ export class Api {
     }
 
     getUserData() {
-        return fetch('https://mesto.nomoreparties.co/v1/cohort-14/users/me', {
-            headers: {
-                authorization: '281eea5d-a9b0-4240-a494-1ec91d19957f'
-            }
+        return fetch(`${this.baseUrl}/users/me`, {
+            headers: this.headers,
         })
             .then(res => {
-                if (res.ok) {
-                    return res.json();
-                }
-
-                return Promise.reject(`Ошибка: ${res.status}`);
+                return this._getResponseData(res);
             });
     }
 
     getInitialCards() {
-        return fetch('https://mesto.nomoreparties.co/v1/cohort-14/cards', {
-            headers: {
-                authorization: '281eea5d-a9b0-4240-a494-1ec91d19957f'
-            }
+        return fetch(`${this.baseUrl}/cards`, {
+            headers: this.headers,
         })
             .then(res => {
-                if (res.ok) {
-                    return res.json();
-                }
-
-                return Promise.reject(`Ошибка: ${res.status}`);
+                return this._getResponseData(res);
             });
     }
 
     editProfile(formValues) {
-        return fetch('https://mesto.nomoreparties.co/v1/cohort-14/users/me', {
+        return fetch(`${this.baseUrl}/users/me`, {
             method: 'PATCH',
-            headers: {
-                authorization: '281eea5d-a9b0-4240-a494-1ec91d19957f',
-                'Content-Type': 'application/json'
-            },
+            headers: this.headers,
             body: JSON.stringify({
                 name: formValues['user-name'],
                 about: formValues['profile-description']
             })
         })
-        .then(res => {
-            if (res.ok) {
-                return res.json();
-            }
-
-            return Promise.reject(`Ошибка: ${res.status}`);
-        });
+            .then(res => {
+                return this._getResponseData(res);
+            });
     }
 
     addNewCard(pictureLink, pictureDescription) {
-        return fetch('https://mesto.nomoreparties.co/v1/cohort-14/cards', {
+        return fetch(`${this.baseUrl}/cards`, {
             method: 'POST',
-            headers: {
-                authorization: '281eea5d-a9b0-4240-a494-1ec91d19957f',
-                'Content-Type': 'application/json'
-            },
+            headers: this.headers,
             body: JSON.stringify({
                 link: pictureLink,
                 name: pictureDescription
             })
         })
-        .then(res => { 
-            if (res.ok) {
-                return res.json();
-            }
-
-            return Promise.reject(`Ошибка: ${res.status}`);
-        });
+            .then(res => {
+                return this._getResponseData(res);
+            });
     }
 
     deleteCard(cardId) {
-        return fetch(`https://mesto.nomoreparties.co/v1/cohort-14/cards/${cardId}`, {
+        return fetch(`${this.baseUrl}/cards/${cardId}`, {
             method: 'DELETE',
-            headers: {
-                authorization: '281eea5d-a9b0-4240-a494-1ec91d19957f',
-                'Content-Type': 'application/json'
-            }
+            headers: this.headers,
         })
-        .then(res => { 
-            if (res.ok) {
-                return res.json();
-            }
-
-            return Promise.reject(`Ошибка: ${res.status}`);
-        });
+            .then(res => {
+                return this._getResponseData(res);
+            });
     }
 
     addLike(cardId) {
-        return fetch(`https://mesto.nomoreparties.co/v1/cohort-14/cards/likes/${cardId}`, {
+        return fetch(`${this.baseUrl}/cards/likes/${cardId}`, {
             method: 'PUT',
-            headers: {
-                authorization: '281eea5d-a9b0-4240-a494-1ec91d19957f',
-                'Content-Type': 'application/json'
-            }
+            headers: this.headers,
         })
-        .then(res => { 
-            if (res.ok) {
-                return res.json();
-            }
-
-            return Promise.reject(`Ошибка: ${res.status}`);
-        });
+            .then(res => {
+                return this._getResponseData(res);
+            });
     }
 
     removeLike(cardId) {
-        return fetch(`https://mesto.nomoreparties.co/v1/cohort-14/cards/likes/${cardId}`, {
+        return fetch(`${this.baseUrl}/cards/likes/${cardId}`, {
             method: 'DELETE',
-            headers: {
-                authorization: '281eea5d-a9b0-4240-a494-1ec91d19957f',
-                'Content-Type': 'application/json'
-            }
+            headers: this.headers,
         })
-        .then(res => { 
-            if (res.ok) {
-                return res.json();
-            }
-
-            return Promise.reject(`Ошибка: ${res.status}`);
-        });
+            .then(res => {
+                return this._getResponseData(res);
+            });
     }
 
     changeAvatar(avatarLink) {
-        return fetch('https://mesto.nomoreparties.co/v1/cohort-14/users/me/avatar', {
+        return fetch(`${this.baseUrl}/users/me/avatar`, {
             method: 'PATCH',
-            headers: {
-                authorization: '281eea5d-a9b0-4240-a494-1ec91d19957f',
-                'Content-Type': 'application/json'
-            },
+            headers: this.headers,
             body: JSON.stringify({
                 avatar: avatarLink,
             })
         })
-        .then(res => { 
-            if (res.ok) {
-                return res.json();
-            }
+            .then(res => {
+                return this._getResponseData(res);
+            });
+    }
 
-            return Promise.reject(`Ошибка: ${res.status}`);
-        });
+    _getResponseData(res){
+        if (res.ok) {
+            return res.json();
+        }
+
+        return Promise.reject(new Error(`Ошибка: ${res.status}`));
     }
 
     loadAppInfo() {
@@ -152,11 +106,3 @@ export class Api {
       }
 
 }
-
-export const api = new Api({
-    baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-14',
-    headers: {
-      authorization: '281eea5d-a9b0-4240-a494-1ec91d19957f',
-      'Content-Type': 'application/json'
-    }
-  });
