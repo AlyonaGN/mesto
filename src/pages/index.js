@@ -10,6 +10,8 @@ import { validationConfig } from '../utils/config.js';
 import './index.css';
 
 const popupEditProfile = document.querySelector('.popup_type_profile');
+const popupChangeAvatarSelector = '.popup_type_change-avatar';
+const popupProfileSelector = '.popup_type_profile';
 const popupEditProfileForm = popupEditProfile.querySelector('.popup__form');
 const profile = document.querySelector('.profile');
 const nameInput = popupEditProfile.querySelector('.popup__field_name');
@@ -18,11 +20,16 @@ const popupEditProfileOpenButton = profile.querySelector('.profile__edit-button'
 const avatarOverlay = profile.querySelector('.profile__avatar-overlay');
 
 const popupAddPhoto = document.querySelector('.popup_type_add-photo');
+const popupAddPhotoSelector = '.popup_type_add-photo';
 const popupAddPhotoForm = popupAddPhoto.querySelector('.popup__form');
 const popupAddPhotoSubmitButton = popupAddPhoto.querySelector('.popup__submit-button');
 const newPhotoDescriptionInput = popupAddPhoto.querySelector('.popup__field_photo-description');
 const newPhotoLinkInput = popupAddPhoto.querySelector('.popup__field_photo-link');
 const popupAddPhotoOpenButton = profile.querySelector('.profile__add-button');
+
+const popupPhotoFullScreenSelector = '.popup_type_photo-view';
+
+const popupDeletePhotoSelector = '.popup_type_delete-card';
 
 const popupEditAvatarElement = document.querySelector('.popup_type_change-avatar');
 const popupEditAvatarForm = popupEditAvatarElement.querySelector('.popup__form');
@@ -91,7 +98,7 @@ const profileFormValidator = new FormValidator(validationConfig, popupEditProfil
 const addPhotoFormValidator = new FormValidator(validationConfig, popupAddPhotoForm);
 const editAvatarValidator = new FormValidator(validationConfig, popupEditAvatarForm);
 
-const profileForm = new PopupWithForm({ popupSelector: '.popup_type_profile' }, { formSelectors: popupSelectors },
+const profileForm = new PopupWithForm({ popupSelector: popupProfileSelector }, { formSelectors: popupSelectors },
     {
         handleFormSubmit: (formValues) => {
             profileForm.makeButtonLoading('Сохранение...');
@@ -116,7 +123,7 @@ const profileForm = new PopupWithForm({ popupSelector: '.popup_type_profile' }, 
 );
 
 const addPhotoForm = new PopupWithForm(
-    { popupSelector: '.popup_type_add-photo' }, { formSelectors: popupSelectors },
+    { popupSelector: popupAddPhotoSelector }, { formSelectors: popupSelectors },
     {
         handleFormSubmit: () => {
             addPhotoForm.makeButtonLoading('Создание...');
@@ -138,7 +145,7 @@ const addPhotoForm = new PopupWithForm(
 );
 
 const popupEditAvatar = new PopupWithForm(
-    { popupSelector: '.popup_type_change-avatar' }, { formSelectors: popupSelectors },
+    { popupSelector: popupChangeAvatarSelector }, { formSelectors: popupSelectors },
     {
         handleFormSubmit: () => {
             popupEditAvatar.makeButtonLoading('Сохранение...');
@@ -157,12 +164,12 @@ const popupEditAvatar = new PopupWithForm(
     }
 );
 
-const popupWithPhoto = new PopupWithImage('.popup_type_photo-view', popupClass, openedPopupModifier,
+const popupWithPhoto = new PopupWithImage(popupPhotoFullScreenSelector, popupClass, openedPopupModifier,
 closePopupButtonClass, '.popup__photo-fullscreen', '.popup__photo-caption');
 popupWithPhoto.setEventListeners();
 
 const popupDeleteCard = new PopupDeleteConfirmation(
-    { popupSelector: '.popup_type_delete-card' }, { formSelectors: popupSelectors }, { handleSubmit: function () {} });
+    { popupSelector: popupDeletePhotoSelector }, { formSelectors: popupSelectors }, { handleSubmit: function () {} });
 popupDeleteCard.setEventListeners();
 
 function createCard(cardName, cardLink, amountOfLikes, ownerId, cardId, likes) {
