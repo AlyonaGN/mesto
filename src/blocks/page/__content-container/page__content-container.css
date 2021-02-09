@@ -1,9 +1,9 @@
-.page__content-conteiner {
+.page__content-container {
   margin: 0 auto 66px;
 }
 
 @media screen and (max-width: 600px) {
-  .page__content-conteiner {
+  .page__content-container {
     margin-bottom: 48px;  
   }
 }

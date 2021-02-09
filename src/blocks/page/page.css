@@ -1,6 +1,6 @@
 @import url(./__header/page__header.css);
 @import url(./__footer/page__footer.css);
-@import url(./__content-conteiner/page__content-conteiner.css);
+@import url(./__content-container/page__content-container.css);
 
 .page {
     max-width: 1200px;
